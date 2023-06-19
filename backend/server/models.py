@@ -29,6 +29,8 @@ class Category(models.Model):
     )
 
     def save(self, *args, **kwargs):
+        self.name = self.name.lower()
+        
         if self.id:
             existing = get_object_or_404(Category, id=self.id)
 

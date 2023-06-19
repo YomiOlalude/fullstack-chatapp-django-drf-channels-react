@@ -1,58 +1,67 @@
-import { createTheme, responsiveFontSizes } from "@mui/material";
+import { createTheme, responsiveFontSizes } from '@mui/material';
 
-declare module "@mui/material/styles" {
+declare module '@mui/material/styles' {
   interface Theme {
     primaryAppBar: {
-      height: number,
+      height: number;
     };
     primaryDrawer: {
-      width: number,
-      closed: number,
+      width: number;
+      closed: number;
     };
     secondaryDrawer: {
-      width: number,
+      width: number;
     };
   }
 
   interface ThemeOptions {
     primaryAppBar: {
-      height: number,
+      height: number;
     };
     primaryDrawer: {
-      width: number,
-      closed: number,
+      width: number;
+      closed: number;
     };
     secondaryDrawer: {
-      width: number
-  };
+      width: number;
+    };
   }
 }
 
 export const createMUITheme = () => {
   let theme = createTheme({
     typography: {
-      fontFamily: ['Montserrat', 'sans-serif'].join(","),
+      fontFamily: ['Montserrat', 'sans-serif'].join(','),
+      body1: {
+        fontWeight: 500,
+        letterSpacing: '-0.5px',
+      },
+      body2: {
+        fontWeight: 500,
+        fontSize: "15px",
+        letterSpacing: "-0.5px"
+      }
     },
 
     primaryAppBar: {
       height: 50,
     },
-    
+
     primaryDrawer: {
       width: 240,
-      closed: 70
+      closed: 70,
     },
     secondaryDrawer: {
-      width: 240
+      width: 240,
     },
     components: {
       MuiAppBar: {
         defaultProps: {
-          color: "default",
-          elevation: 0
-        }
-      }
-    }
+          color: 'default',
+          elevation: 0,
+        },
+      },
+    },
   });
 
   theme = responsiveFontSizes(theme);
@@ -60,4 +69,3 @@ export const createMUITheme = () => {
 };
 
 export default createMUITheme;
-

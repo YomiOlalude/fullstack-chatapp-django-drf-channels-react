@@ -1,7 +1,6 @@
-import axios, { AxiosInstance } from "axios";
-import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../config";
-
+import axios, { AxiosInstance } from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../config';
 
 const API_BASE_URL = BASE_URL;
 

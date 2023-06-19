@@ -7,7 +7,7 @@ import SecondaryDrawer from './elements/SecondaryDrawer';
 import ExploreCategories from '../components/secondary-drawer/ExploreCategories';
 import ExploreServers from '../components/main/ExploreServers';
 
-const Home = () => {
+const Explore = () => {
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -27,4 +27,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Explore;

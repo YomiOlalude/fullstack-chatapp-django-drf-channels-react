@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { BASE_URL } from "../config";
-import useAxiosWithInterceptor from "../helpers/jwtinterceptor";
-
+import { useState } from 'react';
+import { BASE_URL } from '../config';
+import useAxiosWithInterceptor from '../helpers/jwtinterceptor';
 
 interface IuseCRUD<T> {
   fetchData: () => Promise<void>;
@@ -21,13 +20,13 @@ const useCRUD = <T>(initialData: T[], apiURL: string): IuseCRUD<T> => {
     setIsLoading(true);
 
     try {
-      const {data} = await jwtAxios.get(`${BASE_URL}${apiURL}`, {});
+      const { data } = await jwtAxios.get(`${BASE_URL}${apiURL}`, {});
       setDataCRUD(data);
       setError(null);
       setIsLoading(false);
     } catch (error: any) {
       if (error.response) {
-        setError(new Error("400"));
+        setError(new Error('400'));
       }
       setIsLoading(false);
       throw error;
