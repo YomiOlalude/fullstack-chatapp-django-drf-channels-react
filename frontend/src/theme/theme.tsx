@@ -9,6 +9,9 @@ declare module "@mui/material/styles" {
       width: number,
       closed: number,
     };
+    secondaryDrawer: {
+      width: number,
+    };
   }
 
   interface ThemeOptions {
@@ -19,6 +22,9 @@ declare module "@mui/material/styles" {
       width: number,
       closed: number,
     };
+    secondaryDrawer: {
+      width: number
+  };
   }
 }
 
@@ -36,6 +42,9 @@ export const createMUITheme = () => {
       width: 240,
       closed: 70
     },
+    secondaryDrawer: {
+      width: 240
+    },
     components: {
       MuiAppBar: {
         defaultProps: {
@@ -47,8 +56,8 @@ export const createMUITheme = () => {
   });
 
   theme = responsiveFontSizes(theme);
-  return theme
-}
+  return theme;
+};
 
-export default createMUITheme
+export default createMUITheme;
 

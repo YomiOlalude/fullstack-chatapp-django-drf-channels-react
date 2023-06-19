@@ -1,7 +1,7 @@
+import { ThemeProvider } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import createMUITheme from './theme/theme';
-import { ThemeProvider } from '@mui/material';
 
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
         </Routes>
       </ThemeProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

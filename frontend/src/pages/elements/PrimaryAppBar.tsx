@@ -1,23 +1,22 @@
 import MenuIcon from "@mui/icons-material/Menu";
-import { AppBar, Box, Drawer, IconButton, Link, Toolbar, Typography, useTheme } from "@mui/material";
-import { useState, useEffect } from "react";
-import { useMediaQuery } from "@mui/material";
+import { AppBar, Box, Drawer, IconButton, Link, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { useEffect, useState } from "react";
 
 const PrimaryAppBar = () => {
-  const [sideMenu, setSideMenu] = useState(false)
+  const [sideMenu, setSideMenu] = useState(false);
   
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.up("sm"))
+  const isSmallScreen = useMediaQuery(theme.breakpoints.up("sm"));
 
   const toggleDrawer = () => {
-    setSideMenu(prevState => !prevState)
-  }
+    setSideMenu(prevState => !prevState);
+  };
 
   useEffect(() => {
     if (isSmallScreen && sideMenu) {
-      setSideMenu(false)
+      setSideMenu(false);
     }
-  }, [sideMenu, isSmallScreen])
+  }, [sideMenu, isSmallScreen]);
   
   return (
     <AppBar
@@ -55,7 +54,7 @@ const PrimaryAppBar = () => {
       </Toolbar>
 
     </AppBar>
-  )
-}
+  );
+};
 
-export default PrimaryAppBar
+export default PrimaryAppBar;
