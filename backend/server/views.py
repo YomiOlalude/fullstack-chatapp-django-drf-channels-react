@@ -1,16 +1,26 @@
 from django.db.models import Count
+from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from rest_framework.response import Response
 from server.models import Category, Channel, Server
 from server.schema import server_list_docs
-from server.serializer import ServerSerializer
+from server.serializer import CategorySerializer, ServerSerializer
 
 
-@server_list_docs
+class CategoryViewSet(viewsets.ViewSet):
+    queryset = Category.objects.all()
+
+    @extend_schema(responses=CategorySerializer)
+    def list(self, request):
+        serializer = CategorySerializer(self.queryset, many=True)
+        return Response(serializer.data)
+
+
 class ServerViewSet(viewsets.ViewSet):
     queryset = Server.objects.all()
 
+    @server_list_docs
     def list(self, request):
         category = request.query_params.get("category")
         qty = request.query_params.get("qty")
@@ -51,4 +61,5 @@ class ServerViewSet(viewsets.ViewSet):
         serializer = ServerSerializer(
             self.queryset, many=True, context={"num_members": with_num_members}
         )
+        print(serializer.data)
         return Response(serializer.data)

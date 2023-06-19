@@ -6,4 +6,5 @@
     "source.organizeImports": true,
     "source.fixAll.eslint": true
   },
+  "eslint.validate": ["javascript"]
 }

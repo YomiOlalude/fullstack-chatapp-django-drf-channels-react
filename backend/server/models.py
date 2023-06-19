@@ -58,19 +58,6 @@ class Server(models.Model):
     description = models.CharField(max_length=250, blank=True, null=True)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
-    def __str__(self):
-        return f"{self.name}-{self.id}"
-
-
-class Channel(models.Model):
-    name = models.CharField(max_length=100)
-    owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="channels"
-    )
-    topic = models.CharField(max_length=100)
-    server = models.ForeignKey(
-        Server, on_delete=models.CASCADE, related_name="channels"
-    )
     banner = models.ImageField(
         upload_to=server_banner_upload_path,
         blank=True,
@@ -83,11 +70,14 @@ class Channel(models.Model):
         validators=[validate_icon_image_size],
     )
 
+    def __str__(self):
+        return f"{self.name}-{self.id}"
+
     def save(self, *args, **kwargs):
         self.name = self.name.lower()
 
         if self.id:
-            existing = get_object_or_404(Channel, id=self.id)
+            existing = get_object_or_404(Server, id=self.id)
 
             if existing.icon != self.icon:
                 existing.icon.delete(save=False)
@@ -96,11 +86,22 @@ class Channel(models.Model):
                 existing.banner.delete(save=False)
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        return self.name
-
     def get_upload_to_banner_path(self):
-        return str(PurePath(str(self.id), "channel-banner"))
+        return str(PurePath(str(self.id), "server-banner"))
 
     def get_upload_to_icon_path(self):
-        return str(PurePath(str(self.id), "channel-icon"))
+        return str(PurePath(str(self.id), "server-icon"))
+
+
+class Channel(models.Model):
+    name = models.CharField(max_length=100)
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="channels"
+    )
+    topic = models.CharField(max_length=100)
+    server = models.ForeignKey(
+        Server, on_delete=models.CASCADE, related_name="channels"
+    )
+
+    def __str__(self):
+        return self.name
