@@ -9,6 +9,7 @@ from drf_spectacular.views import (
 from rest_framework.routers import DefaultRouter
 from server.views import ServerViewSet, CategoryViewSet
 from django.conf.urls.static import static
+from chat.consumer import ChatConsumer
 
 router = DefaultRouter()
 router.register("api/server/select", ServerViewSet)
@@ -23,6 +24,10 @@ urlpatterns = [
         name="swagger-ui",
     ),
 ] + router.urls
+
+websocket_urlpatterns = [
+    path("ws/chat/", ChatConsumer.as_asgi()),
+]
 
 if settings.DEBUG:  
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

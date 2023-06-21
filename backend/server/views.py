@@ -45,8 +45,8 @@ class ServerViewSet(viewsets.ViewSet):
             self.queryset = self.queryset[: int(qty)]
 
         if by_server_id:
-            if not request.user.is_authenticated:
-                raise AuthenticationFailed()
+            # if not request.user.is_authenticated:
+            #     raise AuthenticationFailed()
 
             try:
                 self.queryset = self.queryset.filter(id=by_server_id)

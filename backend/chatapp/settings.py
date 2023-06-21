@@ -45,9 +45,11 @@ INSTALLED_APPS = [
 
     # In-house
     "accounts",
+    "chat",
     "server",
 
     # 3rd-party
+    "channels",
     "corsheaders",
     "drf_spectacular",
     "rest_framework",
@@ -165,3 +167,9 @@ MEDIA_ROOT = PurePath(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.Account"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
