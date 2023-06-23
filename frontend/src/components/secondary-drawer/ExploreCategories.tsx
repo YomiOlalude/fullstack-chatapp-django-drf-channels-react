@@ -29,6 +29,7 @@ const ExploreCategories = () => {
   );
 
   const theme = useTheme();
+  const isDarkMode = theme.palette.mode === 'dark';
 
   useEffect(() => {
     fetchData();
@@ -74,6 +75,7 @@ const ExploreCategories = () => {
                         height: '25px',
                         display: 'block',
                         margin: 'auto',
+                        filter: isDarkMode ? 'invert(100%)' : 'none',
                       }}
                     />
                   </ListItemAvatar>

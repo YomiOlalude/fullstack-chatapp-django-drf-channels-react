@@ -20,10 +20,12 @@ const useCRUD = <T>(initialData: T[], apiURL: string): IuseCRUD<T> => {
     setIsLoading(true);
 
     try {
-      const { data } = await jwtAxios.get(`${BASE_URL}${apiURL}`, {});
+      const response = await jwtAxios.get(`${BASE_URL}${apiURL}`, {});
+      const data = response.data
       setDataCRUD(data);
       setError(null);
       setIsLoading(false);
+      return data;
     } catch (error: any) {
       if (error.response) {
         setError(new Error('400'));

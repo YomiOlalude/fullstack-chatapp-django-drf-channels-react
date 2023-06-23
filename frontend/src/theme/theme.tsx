@@ -28,7 +28,7 @@ declare module '@mui/material/styles' {
   }
 }
 
-export const createMUITheme = () => {
+export const createMUITheme = (mode: 'light' | 'dark') => {
   let theme = createTheme({
     typography: {
       fontFamily: ['Montserrat', 'sans-serif'].join(','),
@@ -38,21 +38,22 @@ export const createMUITheme = () => {
       },
       body2: {
         fontWeight: 500,
-        fontSize: "15px",
-        letterSpacing: "-0.5px"
-      }
+        fontSize: '15px',
+        letterSpacing: '-0.5px',
+      },
     },
-
     primaryAppBar: {
       height: 50,
     },
-
     primaryDrawer: {
       width: 240,
       closed: 70,
     },
     secondaryDrawer: {
       width: 240,
+    },
+    palette: {
+      mode,
     },
     components: {
       MuiAppBar: {

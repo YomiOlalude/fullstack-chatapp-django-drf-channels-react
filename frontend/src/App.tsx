@@ -1,20 +1,20 @@
-import { ThemeProvider } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import createMUITheme from './theme/theme';
 import Explore from './pages/Explore';
+import ToggleColorMode from './pages/elements/ToggleColorMode';
+import Server from './pages/Server';
 
 function App() {
-  const theme = createMUITheme();
 
   return (
     <>
-      <ThemeProvider theme={theme}>
+      <ToggleColorMode>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/explore/:categoryName" element={<Explore />} />
+          <Route path="/server/:serverId/:channelId?" element={<Server />} />
+          <Route path="/explore/:categoryName/" element={<Explore />} />
         </Routes>
-      </ThemeProvider>
+      </ToggleColorMode>
     </>
   );
 }

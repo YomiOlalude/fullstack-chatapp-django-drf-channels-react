@@ -11,6 +11,8 @@ import {
   useTheme,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
+import ExploreCategories from '../../components/secondary-drawer/ExploreCategories';
+import AccountButton from '../../components/primary-app-bar/AccountButton';
 
 const PrimaryAppBar = () => {
   const [sideMenu, setSideMenu] = useState(false);
@@ -27,6 +29,16 @@ const PrimaryAppBar = () => {
       setSideMenu(false);
     }
   }, [sideMenu, isSmallScreen]);
+
+  const list = () => (
+    <Box
+      sx={{ paddingTop: `${theme.primaryAppBar.height}px`, minWidth: 200 }}
+      onClick={toggleDrawer}
+      onKeyDown={toggleDrawer}
+    >
+      <ExploreCategories />
+    </Box>
+  );
 
   return (
     <AppBar
@@ -60,11 +72,7 @@ const PrimaryAppBar = () => {
           open={sideMenu}
           onClose={() => setSideMenu(false)}
         >
-          {[...Array(100)].map((_, i) => (
-            <Typography key={i} paragraph>
-              {i + 1}
-            </Typography>
-          ))}
+          {list()}
         </Drawer>
 
         <Link href="/" underline="none" color="inherit">
@@ -77,6 +85,8 @@ const PrimaryAppBar = () => {
             MOOD
           </Typography>
         </Link>
+        <Box sx={{ flexGrow: 1 }}></Box>
+        <AccountButton />
       </Toolbar>
     </AppBar>
   );
