@@ -1,8 +1,9 @@
 import { Box, styled } from '@mui/material';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 interface ScrollProps {
   children: React.ReactNode;
+  sentNewMessage: boolean;
 }
 
 const ScrollContainer = styled(Box)(() => ({
@@ -10,7 +11,7 @@ const ScrollContainer = styled(Box)(() => ({
   overflowY: 'scroll',
 }));
 
-const Scroll = ({ children }: ScrollProps) => {
+const Scroll = ({ children, sentNewMessage }: ScrollProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = useCallback(() => {
@@ -21,13 +22,11 @@ const Scroll = ({ children }: ScrollProps) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [scrollToBottom, children]);
+  }, [children]);
 
   return (
-    <ScrollContainer ref={scrollRef} sx={{scrollBehavior: 'smooth'}}>
-      <div>
-        {children}
-      </div>
+    <ScrollContainer ref={scrollRef} sx={{ scrollBehavior: sentNewMessage ? 'smooth' : 'auto', height: '88%' }}>
+      {children}
     </ScrollContainer>
   );
 };

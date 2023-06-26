@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { MEDIA_URL } from '../../config';
+import { MEDIA_URL } from '../../data/config';
 import useCRUD from '../../hooks/useCrud';
 
 interface Category {
@@ -37,7 +37,7 @@ const ExploreServers = () => {
   const { categoryName } = useParams();
   const url = categoryName
     ? `/server/select/?category=${categoryName}`
-    : '/server/select';
+    : '/server/select/';
   const { dataCRUD, fetchData } = useCRUD<Server>([], url);
 
   useEffect(() => {

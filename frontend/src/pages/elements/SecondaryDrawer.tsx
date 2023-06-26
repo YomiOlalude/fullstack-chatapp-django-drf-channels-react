@@ -1,7 +1,7 @@
 import { Box, useTheme } from '@mui/material';
 import axios from 'axios';
 import React from 'react';
-import { BASE_URL } from '../../config';
+import { BASE_URL } from '../../data/config';
 
 type SecondaryDrawerProps = {
   children: React.ReactNode;

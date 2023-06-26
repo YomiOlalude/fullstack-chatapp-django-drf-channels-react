@@ -1,11 +1,12 @@
 from chat.models import Conversation
-from chat.schema import list_message_docs
-from chat.serializer import MessageSerializer
+from chat.schemas import list_message_docs
+from chat.serializers import MessageSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 
 
 class MessageViewSet(viewsets.ViewSet):
+    
     @list_message_docs
     def list(self, request):
         channel_id = request.query_params.get("channel_id")

@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { MEDIA_URL } from '../../config';
+import { MEDIA_URL } from '../../data/config';
 import useCRUD from '../../hooks/useCrud';
 
 interface Category {

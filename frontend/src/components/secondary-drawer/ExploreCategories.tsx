@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { MEDIA_URL } from '../../config';
+import { MEDIA_URL } from '../../data/config';
 import useCRUD from '../../hooks/useCrud';
 
 interface Category {
@@ -23,7 +23,7 @@ interface Category {
 }
 
 const ExploreCategories = () => {
-  const { fetchData, dataCRUD, error, isLoading } = useCRUD<Category>(
+  const { fetchData, dataCRUD } = useCRUD<Category>(
     [],
     '/server/select/?category/'
   );

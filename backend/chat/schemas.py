@@ -1,7 +1,7 @@
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 
-from chat.serializer import MessageSerializer
+from chat.serializers import MessageSerializer
 
 
 list_message_docs = extend_schema(

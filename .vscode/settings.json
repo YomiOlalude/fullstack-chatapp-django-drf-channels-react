@@ -1,10 +1,11 @@
 {
-  "python.formatting.provider": "black",
-  "editor.formatOnSave": true,
-  "isort.check": true,
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": true,
-    "source.fixAll.eslint": true
-  },
-  "eslint.validate": ["javascript"]
+	"python.formatting.provider": "black",
+	"editor.formatOnSave": true,
+	"isort.check": true,
+	"editor.codeActionsOnSave": {
+		"source.organizeImports": true,
+		"source.fixAll.eslint": true
+	},
+	"eslint.validate": ["javascript"],
+	"cSpell.words": ["chatapp", "corsheaders", "dotenv", "simplejwt", "viewsets"]
 }

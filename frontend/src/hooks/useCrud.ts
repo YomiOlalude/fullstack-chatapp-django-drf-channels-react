@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { BASE_URL } from '../config';
-import useAxiosWithInterceptor from '../helpers/jwtinterceptor';
+import { BASE_URL } from '../data/config';
+import useAxiosWithInterceptor from '../utils/jwtinterceptor';
 
 interface IuseCRUD<T> {
   fetchData: () => Promise<void>;
@@ -20,8 +20,8 @@ const useCRUD = <T>(initialData: T[], apiURL: string): IuseCRUD<T> => {
     setIsLoading(true);
 
     try {
-      const response = await jwtAxios.get(`${BASE_URL}${apiURL}`, {});
-      const data = response.data
+      const response = await jwtAxios.get(`${BASE_URL}${apiURL}`);
+      const data = await response.data;
       setDataCRUD(data);
       setError(null);
       setIsLoading(false);

@@ -36,6 +36,8 @@ interface SendMessageData {
 const MessageInterface = ({ data }: ServerChannelProps) => {
   const [message, setMessage] = useState('');
   const [newMessage, setNewMessage] = useState<Message[]>([]);
+  const [sentNewMessage, setSentNewMessage] = useState<boolean>(false)
+
   const { serverId, channelId } = useParams();
   const { fetchData } = useCRUD<Server>(
     [],
@@ -60,8 +62,12 @@ const MessageInterface = ({ data }: ServerChannelProps) => {
         console.log(error);
       }
     },
-    onClose: () => {
-      console.log('closed');
+    onClose: (event: CloseEvent) => {
+      if (event.code === 4001) {
+        console.log('%cAuthentication error', 'color: red');
+      }
+      console.log('%cClosed', 'color: red');
+      setSentNewMessage(false)
     },
     onError: (error) => {
       console.error(error);
@@ -69,6 +75,7 @@ const MessageInterface = ({ data }: ServerChannelProps) => {
     onMessage: (msg) => {
       const data = JSON.parse(msg.data);
       setNewMessage((prevMsg) => [...prevMsg, data.new_message]);
+      setSentNewMessage(true)
       setMessage('');
     },
   });
@@ -136,8 +143,8 @@ const MessageInterface = ({ data }: ServerChannelProps) => {
         </Box>
       ) : (
         <>
-          <Box sx={{ overflow: 'hidden', p: 0, height: `calc(100vh - 190px)` }}>
-            <Scroll>
+          <Box sx={{ overflow: 'hidden', p: 0, height: `calc(100vh - 100px)` }}>
+            <Scroll sentNewMessage={sentNewMessage}>
               <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                 {newMessage.map((msg: Message, index: number) => (
                   <ListItem key={index} alignItems="flex-start">

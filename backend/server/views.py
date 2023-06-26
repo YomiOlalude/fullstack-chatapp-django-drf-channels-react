@@ -4,8 +4,8 @@ from rest_framework import viewsets
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from rest_framework.response import Response
 from server.models import Category, Channel, Server
-from server.schema import server_list_docs
-from server.serializer import CategorySerializer, ServerSerializer
+from server.schemas import server_list_docs
+from server.serializers import CategorySerializer, ServerSerializer
 
 
 class CategoryViewSet(viewsets.ViewSet):

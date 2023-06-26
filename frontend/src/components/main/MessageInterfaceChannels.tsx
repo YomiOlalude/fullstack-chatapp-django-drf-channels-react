@@ -14,7 +14,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Server } from '../../@types/server';
-import { MEDIA_URL } from '../../config';
+import { MEDIA_URL } from '../../data/config';
 import ServerChannels from '../secondary-drawer/ServerChannels';
 
 interface ServerChannelProps {
@@ -36,9 +36,9 @@ const MessageInterfaceChannels = ({ data }: ServerChannelProps) => {
 
   useEffect(() => {
     if (isSmallScreen && sideMenu) {
-      setSideMenu(false)
+      setSideMenu(false);
     }
-  }, [isSmallScreen, sideMenu])
+  }, [isSmallScreen, sideMenu]);
 
   const toggleDrawer = () => {
     setSideMenu((prevState) => !prevState);
