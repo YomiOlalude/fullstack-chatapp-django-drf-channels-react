@@ -1,9 +1,8 @@
-import json
-
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import JsonWebsocketConsumer
 from chat.models import Conversation, Message
 from django.contrib.auth import get_user_model
+from server.models import Server
 
 User = get_user_model()
 
@@ -15,15 +14,19 @@ class ChatConsumer(JsonWebsocketConsumer):
         self.user = None
 
     def connect(self):
-        self.user = self.scope['user']
+        self.user = self.scope["user"]
         self.accept()
 
         if not self.user.is_authenticated:
             self.close(code=4001)
 
         self.channel_id = self.scope["url_route"]["kwargs"]["channel_id"]
-    
-        self.user = User.objects.get(id=self.scope['user'].id)
+        self.server_id = self.scope["url_route"]["kwargs"]["server_id"]
+
+        self.user = User.objects.get(id=self.scope["user"].id)
+
+        server = Server.objects.get(id=self.server_id)
+        self.is_member = server.members.filter(id=self.user.id).exists()
 
         async_to_sync(self.channel_layer.group_add)(
             self.channel_id,
@@ -31,6 +34,9 @@ class ChatConsumer(JsonWebsocketConsumer):
         )
 
     def receive_json(self, content):
+        if not self.is_member:
+            return
+
         channel_id = self.channel_id
         sender = self.user
         message = content["message"]
@@ -60,5 +66,7 @@ class ChatConsumer(JsonWebsocketConsumer):
         self.send_json(event)
 
     def disconnect(self, close_code):
-        async_to_sync(self.channel_layer.group_discard)(self.channel_id, self.channel_name)
+        async_to_sync(self.channel_layer.group_discard)(
+            self.channel_id, self.channel_name
+        )
         super().disconnect(close_code)

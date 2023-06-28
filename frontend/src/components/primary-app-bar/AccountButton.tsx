@@ -3,11 +3,12 @@ import { Box, IconButton, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import DarkModeSwitch from './dark-mode/DarkModeSwitch';
 
+
 const AccountButton = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
-
+  
   const handleProfileMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
   };

@@ -9,9 +9,10 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Server } from '../../@types/server';
+import { AuthContext } from '../../context/AuthContext';
 import useChatWebSocket from '../../services/chatService';
 import MessageInterfaceChannels from './MessageInterfaceChannels';
 import Scroll from './Scroll';
@@ -39,6 +40,7 @@ const MessageInterface = ({ data }: ServerChannelProps) => {
     useChatWebSocket(channelId || '', serverId || '');
 
   const theme = useTheme();
+  const user = useContext(AuthContext);
   const serverName = data?.[0]?.name ?? 'Server';
 
   useEffect(() => {

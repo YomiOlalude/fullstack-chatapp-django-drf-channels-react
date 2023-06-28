@@ -13,11 +13,15 @@ import {
 import { useEffect, useState } from 'react';
 import ExploreCategories from '../../components/secondary-drawer/ExploreCategories';
 import AccountButton from '../../components/primary-app-bar/AccountButton';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 const PrimaryAppBar = () => {
   const [sideMenu, setSideMenu] = useState(false);
 
   const theme = useTheme();
+  const user = useContext(AuthContext)
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
   const toggleDrawer = () => {
@@ -85,6 +89,7 @@ const PrimaryAppBar = () => {
             MOOD
           </Typography>
         </Link>
+        <button onClick={() => user?.logout()}>Logout</button>
         <Box sx={{ flexGrow: 1 }}></Box>
         <AccountButton />
       </Toolbar>

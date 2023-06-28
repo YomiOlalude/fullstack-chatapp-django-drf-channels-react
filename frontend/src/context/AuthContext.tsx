@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthServiceProps } from '../@types/auth-service';
 import { BASE_URL } from '../data/config';
@@ -17,8 +17,13 @@ export default function AuthContextProvider({
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     getInitialLoggedInValue()
   );
+  const [userData, setUserData] = useState({})
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setUserData(getUserDetails())
+  }, [])
 
   // const getUserIdFromToken = (access: string) => {
   //   const tokenParts = access.split('.');
@@ -43,7 +48,9 @@ export default function AuthContextProvider({
       localStorage.setItem('username', userDetails?.username);
       localStorage.setItem('is_authenticated', 'true');
 
+      setUserData(userDetails)
       setIsAuthenticated(true);
+      return response.data
     } catch (error: any) {
       setIsAuthenticated(false);
       localStorage.setItem('is_authenticated', 'false');
@@ -132,7 +139,7 @@ export default function AuthContextProvider({
     }
   };
 
-  const authServices = { login, logout, signup, refreshAccessToken, isAuthenticated };
+  const authServices = { login, logout, signup, refreshAccessToken, isAuthenticated, userData };
 
   return (
     <AuthContext.Provider value={authServices}>{children}</AuthContext.Provider>

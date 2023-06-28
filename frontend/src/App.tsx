@@ -1,13 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
+import MembershipCheck from './components/membership/MembershipCheck';
 import AuthContextProvider from './context/AuthContext';
+import MembershipContextProvider from './context/MembershipContext';
 import Explore from './pages/Explore';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Server from './pages/Server';
-import TestLogin from './pages/TestLogin';
+import SignUp from './pages/SignUp';
 import ToggleColorMode from './pages/elements/ToggleColorMode';
 import ProtectedRoute from './services/ProtectedRoute';
-import SignUp from './pages/SignUp';
 
 function App() {
   return (
@@ -27,21 +28,17 @@ function App() {
               path="/server/:serverId/:channelId?"
               element={
                 <ProtectedRoute>
-                  <Server />
+                  <MembershipContextProvider>
+                    <MembershipCheck>
+                      <Server />
+                    </MembershipCheck>
+                  </MembershipContextProvider>
                 </ProtectedRoute>
               }
             />
             <Route path="/explore/:categoryName" element={<Explore />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route
-              path="/testlogin"
-              element={
-                <ProtectedRoute>
-                  <TestLogin />
-                </ProtectedRoute>
-              }
-            />
           </Routes>
         </ToggleColorMode>
       </AuthContextProvider>

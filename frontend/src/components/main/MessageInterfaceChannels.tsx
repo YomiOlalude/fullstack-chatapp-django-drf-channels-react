@@ -16,6 +16,7 @@ import { useParams } from 'react-router-dom';
 import { Server } from '../../@types/server';
 import { MEDIA_URL } from '../../data/config';
 import ServerChannels from '../secondary-drawer/ServerChannels';
+import JoinServerButton from '../membership/JoinServerButton';
 
 interface ServerChannelProps {
   data: Server[];
@@ -89,6 +90,9 @@ const MessageInterfaceChannels = ({ data }: ServerChannelProps) => {
           </Typography>
 
           <Box sx={{ flexGrow: 1 }}></Box>
+
+          <JoinServerButton />
+
           <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
             <IconButton color="inherit" edge="end" onClick={toggleDrawer}>
               <MoreVert />
