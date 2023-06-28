@@ -20,12 +20,10 @@ class ChatConsumer(JsonWebsocketConsumer):
 
         if not self.user.is_authenticated:
             self.close(code=4001)
-            return
 
-        self.server_id = self.scope["url_route"]["kwargs"]["server_id"]
         self.channel_id = self.scope["url_route"]["kwargs"]["channel_id"]
-
-        self.user = User.objects.get(id=1)
+    
+        self.user = User.objects.get(id=self.scope['user'].id)
 
         async_to_sync(self.channel_layer.group_add)(
             self.channel_id,
@@ -48,7 +46,7 @@ class ChatConsumer(JsonWebsocketConsumer):
         async_to_sync(self.channel_layer.group_send)(
             self.channel_id,
             {
-                "type": "chat_message",
+                "type": "chat.message",
                 "new_message": {
                     "id": new_message.id,
                     "sender": new_message.sender.username,

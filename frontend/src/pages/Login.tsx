@@ -1,3 +1,4 @@
+import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,41 +12,92 @@ const Login = () => {
       username: '',
       password: '',
     },
+    validate: (values) => {
+      const errors: Partial<typeof values> = {};
+
+      if (!values.username) {
+        errors.username = 'Username required';
+      }
+
+      if (!values.password) {
+        errors.password = 'Password required';
+      }
+      return errors;
+    },
     onSubmit: async (values) => {
       const { username, password } = values;
-      const res = await user?.login(username, password);
+      const status = await user?.login(username, password);
 
-      if (res) {
-        navigate('/testlogin');
+      if (status === 401) {
+        console.error('Unauthorised');
+
+        formik.setErrors({
+          username: 'Invalid username or password',
+          password: 'Invalid username or password',
+        });
+      } else {
+        navigate('/');
       }
     },
   });
 
   return (
-    <>
-      <h1>Login</h1>
-      <form onSubmit={formik.handleSubmit}>
-        <label>Username</label>
-        <input
-          id="username"
-          name="username"
-          type="text"
-          value={formik.values.username}
-          onChange={formik.handleChange}
-        />
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}
+      >
+        <Typography
+          variant="h5"
+          noWrap
+          component="h1"
+          sx={{ fontWeight: 500, pb: 2 }}
+        >
+          Sign In
+        </Typography>
+        <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
+          <TextField
+            autoFocus
+            fullWidth
+            id="username"
+            name="username"
+            type="text"
+            label="Username"
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            error={!!formik.touched.username && !!formik.errors.username}
+            helperText={formik.touched.username && formik.errors.username}
+          ></TextField>
 
-        <label>Password</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-        />
+          <TextField
+            margin="normal"
+            fullWidth
+            autoFocus
+            id="password"
+            name="password"
+            type="password"
+            label="Password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            error={!!formik.touched.password && !!formik.errors.password}
+            helperText={formik.touched.password && formik.errors.password}
+          ></TextField>
 
-        <button type="submit">Submit</button>
-      </form>
-    </>
+          <Button
+            variant="contained"
+            disableElevation
+            type="submit"
+            sx={{ mt: 1, mb: 2 }}
+          >
+            Sign In
+          </Button>
+        </Box>
+      </Box>
+    </Container>
   );
 };
 

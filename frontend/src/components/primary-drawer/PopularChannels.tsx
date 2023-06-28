@@ -34,7 +34,7 @@ type Props = {
 const PopularChannels: React.FC<Props> = ({ open }) => {
   const { fetchData, dataCRUD, error, isLoading } = useCRUD<Server>(
     [],
-    '/server/select/?category=rap'
+    '/server/select/?category=music'
   );
 
   useEffect(() => {

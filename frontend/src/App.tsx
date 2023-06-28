@@ -7,6 +7,7 @@ import Server from './pages/Server';
 import TestLogin from './pages/TestLogin';
 import ToggleColorMode from './pages/elements/ToggleColorMode';
 import ProtectedRoute from './services/ProtectedRoute';
+import SignUp from './pages/SignUp';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             />
             <Route path="/explore/:categoryName" element={<Explore />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route
               path="/testlogin"
               element={

@@ -9,11 +9,10 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useWebSocket } from 'react-use-websocket/dist/lib/use-websocket';
 import { Server } from '../../@types/server';
-import useCRUD from '../../hooks/useCrud';
+import useChatWebSocket from '../../services/chatService';
 import MessageInterfaceChannels from './MessageInterfaceChannels';
 import Scroll from './Scroll';
 
@@ -34,59 +33,27 @@ interface SendMessageData {
 }
 
 const MessageInterface = ({ data }: ServerChannelProps) => {
-  const [message, setMessage] = useState('');
-  const [newMessage, setNewMessage] = useState<Message[]>([]);
-  const [sentNewMessage, setSentNewMessage] = useState<boolean>(false)
-
   const { serverId, channelId } = useParams();
-  const { fetchData } = useCRUD<Server>(
-    [],
-    `/messages/?channel_id=${channelId}`
-  );
+
+  const { message, newMessage, sentNewMessage, setMessage, sendJsonMessage } =
+    useChatWebSocket(channelId || '', serverId || '');
 
   const theme = useTheme();
   const serverName = data?.[0]?.name ?? 'Server';
 
-  const socketURL = channelId
-    ? `ws://127.0.0.1:8000/${serverId}/${channelId}/`
-    : null;
-
-  const { sendJsonMessage } = useWebSocket(socketURL, {
-    onOpen: async () => {
-      try {
-        const data = await fetchData();
-        setNewMessage([]);
-        setNewMessage(Array.isArray(data) ? data : []);
-        console.info('%cConnected', 'color: #90EE90');
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    onClose: (event: CloseEvent) => {
-      if (event.code === 4001) {
-        console.log('%cAuthentication error', 'color: red');
-      }
-      console.log('%cClosed', 'color: red');
-      setSentNewMessage(false)
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-    onMessage: (msg) => {
-      const data = JSON.parse(msg.data);
-      setNewMessage((prevMsg) => [...prevMsg, data.new_message]);
-      setSentNewMessage(true)
-      setMessage('');
-    },
-  });
+  useEffect(() => {
+    setMessage('');
+  }, [channelId]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key == 'Enter') {
       e.preventDefault();
-      sendJsonMessage({
-        type: 'message',
-        message,
-      } as SendMessageData);
+      if (message) {
+        sendJsonMessage({
+          type: 'message',
+          message,
+        } as SendMessageData);
+      }
     }
   };
 

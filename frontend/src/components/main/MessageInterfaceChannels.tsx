@@ -29,7 +29,7 @@ const MessageInterfaceChannels = ({ data }: ServerChannelProps) => {
   const channelName =
     data
       ?.find((server) => server.id == Number(serverId))
-      ?.channels?.find((channel) => channel.id === Number(channelId))?.name ||
+      ?.channels?.find((channel) => channel.id == Number(channelId))?.name ||
     'Home';
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.up('sm'));

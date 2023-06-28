@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { createContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthServiceProps } from '../@types/auth-service';
 import { BASE_URL } from '../data/config';
 
@@ -16,6 +17,8 @@ export default function AuthContextProvider({
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     getInitialLoggedInValue()
   );
+
+  const navigate = useNavigate();
 
   // const getUserIdFromToken = (access: string) => {
   //   const tokenParts = access.split('.');
@@ -74,6 +77,39 @@ export default function AuthContextProvider({
     } catch (error: any) {
       setIsAuthenticated(false);
       console.error(error);
+      return error.response.status
+    }
+  };
+
+  const signup = async (username: string, password: string) => {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/signup/`,
+        {
+          username,
+          password,
+        },
+        { withCredentials: true }
+      );
+      
+      window.history.replaceState(null, '', '/login');
+      return response.status;
+    } catch (error: any) {
+      console.error(error);
+      return error.response.status
+    }
+  };
+
+  const refreshAccessToken = async () => {
+    try {
+      await axios.post(
+        `${BASE_URL}/token/refresh/`,
+        {},
+        { withCredentials: true }
+      );
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
     }
   };
 
@@ -82,9 +118,21 @@ export default function AuthContextProvider({
     localStorage.removeItem('username');
     localStorage.setItem('is_authenticated', 'false');
     setIsAuthenticated(false);
+    navigate('/login');
+
+    try {
+      await axios.post(
+        `${BASE_URL}/logout/`,
+        {},
+        { withCredentials: true }
+      );
+    } catch (error) {
+      console.error(error);
+      return Promise.reject(error);
+    }
   };
 
-  const authServices = { login, logout, isAuthenticated };
+  const authServices = { login, logout, signup, refreshAccessToken, isAuthenticated };
 
   return (
     <AuthContext.Provider value={authServices}>{children}</AuthContext.Provider>

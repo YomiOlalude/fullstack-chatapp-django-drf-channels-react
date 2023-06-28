@@ -7,5 +7,5 @@
 		"source.fixAll.eslint": true
 	},
 	"eslint.validate": ["javascript"],
-	"cSpell.words": ["chatapp", "corsheaders", "dotenv", "simplejwt", "viewsets"]
+	"cSpell.words": ["*"]
 }
